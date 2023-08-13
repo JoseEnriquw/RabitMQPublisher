@@ -11,19 +11,21 @@ namespace Core.UseCase.V1.UserOperation.Commands.Update
     public class UpdateUserCommand : IRequest<Response<User>>
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
     }
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Response<User>>
     {
         private readonly IRepositoryEF _repository;
+        private readonly IPublisherRabbitMQ _publisher;
         private readonly ILogger<UpdateUserCommandHandler> _logger;
 
-        public UpdateUserCommandHandler(IRepositoryEF repository, ILogger<UpdateUserCommandHandler> logger)
+        public UpdateUserCommandHandler(IRepositoryEF repository, IPublisherRabbitMQ publisher, ILogger<UpdateUserCommandHandler> logger)
         {
             _repository = repository;
+            _publisher = publisher;
             _logger = logger;
         }
         public async Task<Response<User>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -43,6 +45,7 @@ namespace Core.UseCase.V1.UserOperation.Commands.Update
                 await _repository.SaveChangesAsync();
                 response.Content = result;
                 response.StatusCode = HttpStatusCode.OK;
+                await _publisher.Publish(result, "user.update");
             }
             return response;
         }

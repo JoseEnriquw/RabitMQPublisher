@@ -20,14 +20,16 @@ namespace Core.Test.UseCase.V1.UserOperation.Commands.Update
     public class UpdateUserCommandTest
     {
         private readonly Mock<IRepositoryEF> _mockRepositoryEF;
+        private readonly Mock<IPublisherRabbitMQ> _mockPublisherRabbitMQ;
         private readonly Mock<ILogger<UpdateUserCommandHandler>> _mockLogger;
         private readonly UpdateUserCommandHandler _handler;
 
         public UpdateUserCommandTest()
         {
             _mockRepositoryEF = new Mock<IRepositoryEF>();
+            _mockPublisherRabbitMQ = new Mock<IPublisherRabbitMQ>();
             _mockLogger = new Mock<ILogger<UpdateUserCommandHandler>>();
-            _handler = new UpdateUserCommandHandler(_mockRepositoryEF.Object, _mockLogger.Object);
+            _handler = new UpdateUserCommandHandler(_mockRepositoryEF.Object,_mockPublisherRabbitMQ.Object, _mockLogger.Object);
         }
 
         // Assuming you have already set up the necessary dependencies and imports for xUnit and Moq.

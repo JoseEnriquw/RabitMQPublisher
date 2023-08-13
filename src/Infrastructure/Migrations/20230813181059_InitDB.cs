@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -22,7 +23,8 @@ namespace Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,13 +34,13 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "CreatedAt", "Email", "Name" },
+                columns: new[] { "Id", "CreatedAt", "Email", "LastUpdatedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "user1@gmail.com", "User 1" },
-                    { 2, new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "user2@gmail.com", "User 2" },
-                    { 3, new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "user3@gmail.com", "User 3" },
-                    { 4, new DateTime(2023, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "user4@gmail.com", "User 4" }
+                    { 1, new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "user1@gmail.com", null, "User 1" },
+                    { 2, new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "user2@gmail.com", null, "User 2" },
+                    { 3, new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "user3@gmail.com", null, "User 3" },
+                    { 4, new DateTime(2023, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "user4@gmail.com", null, "User 4" }
                 });
         }
 

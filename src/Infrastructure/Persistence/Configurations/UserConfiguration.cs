@@ -12,6 +12,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(u => u.Name).HasMaxLength(100).IsRequired();
             builder.Property(u => u.Email).HasMaxLength(100).IsRequired();
             builder.Property(u => u.CreatedAt).IsRequired();
+            builder.Property(u => u.LastUpdatedAt).IsRequired(false);
 
             builder.HasData(
 
